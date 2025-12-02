@@ -1,8 +1,8 @@
-const { DataTypes, ENUM } = require("sequelize")
+const { DataTypes } = require("sequelize")
 const sequelize = require("../Config/conn")
 
 
-const User = new sequelize.define("User", {
+const User = sequelize.define("User", {
     userId: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -25,7 +25,9 @@ const User = new sequelize.define("User", {
     },
     
     role: {
-        type: ENUM('common', 'admin')
+        type: DataTypes.ENUM('common', 'admin'),
+        allowNull: false,
+        defaultValue: 'common'
     }
 });
 
