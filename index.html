@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login page | e-commerce</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        section {
+            background: white;
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+        }
+
+        section h1 {
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+
+        form div {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 12px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+
+        .btn {
+            height: 30px;
+            width: 80px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .extra-links {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .extra-links a {
+            text-decoration: none;
+        }
+
+        .extra-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <h1>Login</h1>
+
+        <form id="myForm">
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" placeholder="Digite seu email">
+            </div>
+
+            <div>
+                <label for="password">Senha:</label>
+                <input type="password" name="password" id="password" placeholder="Digite sua senha">
+            </div>
+
+            <button class="btn" type="submit">Login</button>
+        </form>
+
+        <script>
+            const form = document.getElementById('myForm')
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const email = document.getElementById('email').value
+                const password = document.getElementById('password').value
+
+
+                try {
+                    const res = await fetch("http://localhost:3001/login", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ email, password })
+                    });
+
+                    const data = await res.json();
+
+                    if (!res.ok) {
+                        return window.alert("Erro ao realizar login")
+                    }
+
+                    // Guardar token localmente (apenas exemplo; o ideal é cookie httpOnly)
+                    localStorage.setItem("accessToken", data.accessToken);
+                    localStorage.setItem("refreshToken", data.refreshToken);
+
+                    window.alert("Login realizado! Redirecionando...")
+
+                    // redirecionar para página protegida
+                    setTimeout(() => {
+                        window.location.href = "dashboard.html";
+                    }, 800);
+
+                } catch (error) {
+                    window.alert("Erro de conexão com o servidor")
+                    console.error("Erro de conexão com o servidor")
+                }
+            })
+
+
+        </script>
+    </section>
+</body>
+
+</html>

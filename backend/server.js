@@ -8,7 +8,8 @@ const User = require("./Models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const userRoutes = require("./Routes/userRoutes")
+const userRoutes = require("./Routes/userRoutes");
+const authMiddleware = require('./authMiddlware/middleware');
 
 const app = express();
 const port = process.env.SRVR_PORT;
@@ -17,7 +18,7 @@ const port = process.env.SRVR_PORT;
 app.use(cors());
 app.use(express.json());
 
-app.use("/users", userRoutes);
+app.use("/users", authMiddleware, userRoutes);
 
 const accessSecret = process.env.ACCESS_SECRET
 const refreshSecret = process.env.REFRESH_SECRET
@@ -32,7 +33,7 @@ app.post("/login", async (req, res) => {
             return res.status(401).json({ msg: "Invalid Credentials" })
         }
 
-        const acessToken = jwt.sign(
+        const accessToken = jwt.sign(
             { email: user.email, role: user.role },
             accessSecret,
             { expiresIn: "30m" }
@@ -51,7 +52,7 @@ app.post("/login", async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Login error:", err);
+        console.error("Login error:", error);
         return res.status(500).json({ error: "Internal server error" });
     }
 
