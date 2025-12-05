@@ -78,7 +78,7 @@ const createAdminUser = async () => {
 
 // Initialize database and start server
 sequelize
-    .sync()
+    .sync({ alter: true })
     .then(() => {
         createAdminUser().
             then(() => {
