@@ -9,6 +9,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const userRoutes = require("./Routes/userRoutes");
+const productsRoutes = require("./Routes/productsRoutes")
 const authMiddleware = require('./authMiddlware/middleware');
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/users", authMiddleware, userRoutes);
+app.use("/Products", authMiddleware, productsRoutes);
 
 const accessSecret = process.env.ACCESS_SECRET
 const refreshSecret = process.env.REFRESH_SECRET
