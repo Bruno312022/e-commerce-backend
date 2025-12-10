@@ -25,6 +25,7 @@ form.addEventListener('submit', async (e) => {
         // Guardar token localmente (apenas exemplo; o ideal é cookie httpOnly)
         localStorage.setItem("accessToken", data.accessToken);
         localStorage.setItem("refreshToken", data.refreshToken);
+        localStorage.setItem("role", data.role);
 
         window.alert("Login realizado! Redirecionando...")
 

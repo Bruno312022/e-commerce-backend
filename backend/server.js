@@ -20,7 +20,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/users", authMiddleware, userRoutes);
-app.use("/Products",  productsRoutes);
+app.use("/products", authMiddleware, productsRoutes);
 
 const accessSecret = process.env.ACCESS_SECRET
 const refreshSecret = process.env.REFRESH_SECRET
