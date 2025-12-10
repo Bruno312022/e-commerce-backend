@@ -30,7 +30,7 @@ form.addEventListener('submit', async (e) => {
 
         // redirecionar para página protegida
         setTimeout(() => {
-            window.location.href = "dashboard.html";
+            window.location.href = "fetch-products.html";
         }, 800);
 
     } catch (error) {
